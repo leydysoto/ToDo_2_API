@@ -6,6 +6,7 @@ import com.leydy.todoapp.persistencia.entity.Task;
 import com.leydy.todoapp.persistencia.entity.TaskStatus;
 import com.leydy.todoapp.persistencia.repository.TaskRepository;
 import com.leydy.todoapp.service.dto.TaskInDTO;
+import com.leydy.todoapp.service.dto.TaskOutDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +23,8 @@ public class TaskService {
         this.taskRepository = taskRepository;
         this.mapper = mapper;
     }
+
+
     public Task createTask(TaskInDTO taskInDTO ){
         Task task=mapper.map(taskInDTO);
         return this.taskRepository.save(task);
@@ -31,13 +34,38 @@ public class TaskService {
     }
     //obtener una lista de las tareas de tal estado
     public List<Task>findAllByTaskStatus(TaskStatus status){
+
         return this.taskRepository.findAllByTaskStatus(status);
     }
 
-    //obtener la task segun el id puede esta o no
+    //obtener la task segun el id puede estar o no
+    public Optional<TaskOutDTO>getTaskUnico(Long id) {
+        Optional<Task> optionalTask = getTask(id);
+
+        if (optionalTask.isPresent()) {
+            Task task = optionalTask.get();
+
+            TaskOutDTO taskOutDTO = TaskOutDTO.builder()
+                    .id(task.getId())
+                    .title(task.getTitle())
+                    .description(task.getDescription())
+                    .createdDaate(task.getCreatedDaate())
+                    .eta(task.getEta())
+                    .finished(task.isFinished())
+                    .taskStatus(task.getTaskStatus())
+                    .build();
+
+            return Optional.of(taskOutDTO);
+        } else {
+            return Optional.empty();
+        }
+    }
+
     public Optional<Task> getTask(Long id) {
         Optional<Task>optionalTask=this.taskRepository.findById(id);
+        //to how handle the absence of the task
         return optionalTask;
+
     }
 
 
