@@ -1,15 +1,17 @@
-package com.leydy.todoapp.persistencia.entity;
+package com.leydy.todoapp.model.dto;
 
+import com.leydy.todoapp.model.TaskStatus;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
 import java.time.LocalDateTime;
 @Data
-@Entity
-@Table(name="task")
-public class Task {
-    @Id
-    @GeneratedValue (strategy= GenerationType.AUTO)
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+public class TaskResponseDTO {
     private Long id;
     private String title;
     private String description;

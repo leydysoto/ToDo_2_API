@@ -1,16 +1,16 @@
 package com.leydy.todoapp.mapper;
 
-import com.leydy.todoapp.persistencia.entity.Task;
-import com.leydy.todoapp.persistencia.entity.TaskStatus;
-import com.leydy.todoapp.service.dto.TaskInDTO;
+import com.leydy.todoapp.model.Task;
+import com.leydy.todoapp.model.TaskStatus;
+import com.leydy.todoapp.model.dto.TaskRequestDTO;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 
 @Component
-public class TaskInDTOtoTask  implements IMapper<TaskInDTO,Task>{
+public class TaskRequestDTOtoTask implements IMapper<TaskRequestDTO, Task>{
     @Override
-    public Task map(TaskInDTO in) {
+    public Task map(TaskRequestDTO in) {
         Task task=new Task();
         task.setTitle(in.getTitle());
         task.setDescription(in.getDescription());
